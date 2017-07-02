@@ -1,0 +1,12 @@
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="de.secretofalama.editors.CharachterEditor"
+            default="false"
+            filenames=".charachter"
+            id="SecretOfAlama.charachtereditor"
+            name="Charachter Editor">
+      </editor>
+   </extension>
+</plugin>
