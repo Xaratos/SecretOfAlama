@@ -15,6 +15,8 @@ public class Charachter {
 	private Geschlecht geschlecht;
 	private Date geburtsdatum;
 	
+	//Getter und Setter
+	
 	public String getVorname() {
 		return vorname;
 	}
@@ -50,4 +52,5 @@ public class Charachter {
 	public void setGeschlecht(Geschlecht geschlecht) {
 		this.geschlecht = geschlecht;
 	}
+	
 }

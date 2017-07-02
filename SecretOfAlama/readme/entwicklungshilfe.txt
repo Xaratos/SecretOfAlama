@@ -1,1 +1,2 @@
 Resource is out of sync with the file system: Window - Preferences - General - Workspace - Refresh Automatically
+SWT Window Builder 
