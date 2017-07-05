@@ -14,7 +14,9 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -38,11 +40,13 @@ import org.eclipse.ui.part.FileEditorInput;
 import de.secretofalama.objects.datatypes.Geschlecht;
 import de.secretofalama.objects.gameelements.Charachter;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.BaseLabelProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.LabelProvider;
 
 public class CharachterEditor extends EditorPart {
 	private DataBindingContext m_bindingContext;
@@ -54,6 +58,7 @@ public class CharachterEditor extends EditorPart {
 	private Text txtNachname;
 	private Text txtVorname;
 	private String charImage;
+	private ComboViewer comboViewerGeschlecht;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -90,7 +95,21 @@ public class CharachterEditor extends EditorPart {
 		Label lblGeschlecht = new Label(grpBasis, SWT.NONE);
 		lblGeschlecht.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblGeschlecht.setText("Geschlecht");
-		new Label(grpBasis, SWT.NONE);
+		
+		comboViewerGeschlecht = new ComboViewer(grpBasis, SWT.NONE);
+		comboViewerGeschlecht.setContentProvider(ArrayContentProvider.getInstance());
+		comboViewerGeschlecht.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if(element instanceof Geschlecht) {
+					return ((Geschlecht) element).getAnzeigetext();
+				}
+				return super.getText(element);
+			}
+		});
+		comboViewerGeschlecht.setInput(Geschlecht.values());
+		Combo comboGeschlecht = comboViewerGeschlecht.getCombo();
+		comboGeschlecht.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		new Label(grpBasis, SWT.NONE);
 		
 		TabItem tbtmControls = new TabItem(tabFolder, SWT.NONE);
@@ -195,6 +214,11 @@ public class CharachterEditor extends EditorPart {
 		IObservableValue observeTextTxtVornameObserveWidget = WidgetProperties.text(SWT.Modify).observe(txtVorname);
 		IObservableValue vornameCharachterObserveValue = PojoProperties.value("vorname").observe(charachter);
 		bindingContext.bindValue(observeTextTxtVornameObserveWidget, vornameCharachterObserveValue, null, null);
+		
+		IViewerObservableValue selectedTodo = ViewerProperties.singleSelection().observe(comboViewerGeschlecht);
+		IObservableValue geschlechtCharachterObserveValue = PojoProperties.value("geschlecht").observe(charachter);
+		bindingContext.bindValue(selectedTodo, geschlechtCharachterObserveValue, null, null);
+		
 		//
 		return bindingContext;
 	}

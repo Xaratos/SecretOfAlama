@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <charachter>
+    <geschlecht>MAENNLICH</geschlecht>
     <nachname>Prime</nachname>
     <vorname>Optimus</vorname>
 </charachter>

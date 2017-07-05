@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum Geschlecht {
 
-	MAENNLICH("maennlich"), WEIBLICH("weiblich");
+	MAENNLICH("maennlich"), WEIBLICH("weiblich"), OHNE("ohne");
 
 	private String anzeigetext;
 
